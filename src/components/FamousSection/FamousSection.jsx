@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FamousSection.css';
+import axios from 'axios';
 
 function FamousSection() {
   let [famousPersonName, setPersonName] = useState('');
@@ -10,7 +11,17 @@ function FamousSection() {
 
   const fetchPeople = () => {
     // TODO: fetch the list of people from the server
+    axios.get('/people').then((response) => {
+      setPeopleArray(response.data);
+    }).catch((error) => {
+      console.error('GET request error', error);
+      alert('Something went wrong GET');
+    })
   }
+
+  useEffect(() => {
+    fetchPeople()
+  }, []);
 
   const addPerson = (evt) => {
     evt.preventDefault();
